@@ -8,6 +8,10 @@ let g:mapleader = ","
 set number
 set laststatus=2
 set updatetime=100
+set foldmethod=indent   
+set foldnestmax=10
+set nofoldenable
+set foldlevel=2
 
 " deoplete
 set completeopt=longest,menuone " auto complete setting
@@ -17,7 +21,6 @@ let g:deoplete#auto_complete_start_length = 1
 let g:deoplete#keyword_patterns = {}
 let g:deoplete#keyword_patterns['default'] = '\h\w*'
 let g:deoplete#omni#input_patterns = {}
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let g:deoplete#sources#go#align_class = 1
 
 " Random mappings
@@ -39,6 +42,8 @@ map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove 
+
+nmap <F8> :TagbarToggle<CR>
 
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
@@ -107,6 +112,33 @@ let g:ale_sign_warning = '⚠'
 " Enable integration with airline.
 let g:airline#extensions#ale#enabled = 1
 
+let g:tagbar_type_go = {  
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
 
 " use real tabs in .go files, not spaces
 autocmd FileType go setlocal shiftwidth=4 tabstop=4 softtabstop=4 noexpandtab
@@ -127,6 +159,10 @@ Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
+Plug 'fatih/molokai'
+Plug 'majutsushi/tagbar'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'hesselbom/vim-hsftp' " Sync with remote server
 
 " Languages support 
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
@@ -139,8 +175,11 @@ Plug 'zchee/deoplete-go', { 'do': 'make'}      " Go auto completion
 " Add plugins to &runtimepath
 call plug#end()
 
+syntax on
 set background=dark
 colorscheme PaperColor
+
+" color dracula
 
 " install missing plugins on start
 autocmd VimEnter *
